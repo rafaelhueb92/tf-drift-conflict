@@ -43,6 +43,10 @@ jobs:
           exit_code=$?
           echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
           [ "$exit_code" -eq 0 ] || [ "$exit_code" -eq 2 ] || exit 1
+          
+      - name: Debug plan output
+        run: |
+          echo "Captured exit code from previous step: ${{ steps.plan.outputs.exit_code }}"
 
       - name: Terraform Apply
         id: apply
