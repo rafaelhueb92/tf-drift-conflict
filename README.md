@@ -104,5 +104,5 @@ In order to create dashboards in Datadog for pipe execution, uses CI Visibility,
 https://www.datadoghq.com/blog/datadog-github-actions-ci-visibility/
 
 <div align="center">
-  <img src="./images/ci_print.png" alt="ci-print" width="400" height="400">
+  <img src="./images/ci_print.png" alt="ci-print" width="800" height="800">
 </div>
