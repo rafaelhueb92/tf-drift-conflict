@@ -97,3 +97,12 @@ The GitHub Actions workflow (`terraform.yml`) automates the following:
 - `AWS_REGION`
 - `TF_STATE_BUCKET`
 - `DATADOG_SITE` (Datadog API endpoint for metrics)
+
+## To Create CI Dashboards
+
+In order to create dashboards in Datadog for pipe execution, uses CI Visibility, here's the documentation:
+https://www.datadoghq.com/blog/datadog-github-actions-ci-visibility/
+
+<div align="center">
+  <img src="./images/ci_print.png" alt="ci-print" width="400" height="400">
+</div>
