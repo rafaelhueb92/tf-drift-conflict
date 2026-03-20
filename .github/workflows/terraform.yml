@@ -1,16 +1,8 @@
 name: Terraform Drift + Apply + Datadog
 
 on:
-  workflow_dispatch:
-    inputs:
-      apply:
-        description: "Apply Terraform changes if drift is detected"
-        required: true
-        default: "false"
-        type: choice
-        options: ["false", "true"]
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   terraform:
@@ -54,7 +46,7 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'true' && steps.plan.outputs.exit_code == '2'
+        if: steps.plan.outputs.exit_code == '2'
         run: terraform apply -auto-approve tfplan
 
       - name: Send Success & Drift Metrics
