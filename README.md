@@ -9,6 +9,8 @@
   <img src="./images/logo.png" alt="terraform-datadog-logo" width="400" height="400">
 </div>
 
+## About the Repository
+
 This repository is a Proof of Concept (PoC) designed to demonstrate and handle **Terraform drift** and conflict resolution, specifically focusing on AWS RDS MySQL engine version upgrades.
 
 ## Project Overview
