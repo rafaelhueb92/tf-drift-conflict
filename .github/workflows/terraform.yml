@@ -127,7 +127,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Execute Terraform Destroy
-        working-directory: infra
         run: |
           terraform init \
             -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}" \
