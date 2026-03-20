@@ -24,8 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
-      DATADOG_SITE: ${{ secrets.DATADOG_SITE || 'us5.datadoghq.com' }}
-      DD_API_KEY: ${{ secrets.DD_API_KEY }}
 
     steps:
       - name: Checkout
@@ -65,49 +63,7 @@ jobs:
         if: steps.plan.outputs.exit_code == '2' || steps.plan.outputs.exit_code == '0'
         run: terraform apply -auto-approve tfplan
 
-      # --- DATADOG METRICS SECTION ---
-
-      - name: Send Success & Drift Metrics
-        if: success()
-        shell: bash
-        run: |
-          TS=$(date +%s)
-          TAGS="\"repo:${{ github.repository }}\",\"workflow:${{ github.workflow }}\",\"branch:${{ github.ref_name }}\",\"event:${{ github.event_name }}\""
-          
-          # 1. Send General Success Metric
-          curl -s -X POST "https://api.${DATADOG_SITE}/api/v1/series" -H "DD-API-KEY: ${DD_API_KEY}" -H "Content-Type: application/json" \
-            -d "{\"series\": [{\"metric\": \"terraform.pipeline_success\", \"points\": [[$TS, 1]], \"type\": \"count\", \"tags\": [$TAGS]}]}"
-
-          # 2. Send Drift Metric if exit code was 2
-          if [ "${{ steps.plan.outputs.exit_code }}" = "2" ]; then
-            curl -s -X POST "https://api.${DATADOG_SITE}/api/v1/series" -H "DD-API-KEY: ${DD_API_KEY}" -H "Content-Type: application/json" \
-              -d "{\"series\": [{\"metric\": \"terraform.drift_detected\", \"points\": [[$TS, 1]], \"type\": \"count\", \"tags\": [$TAGS]}]}"
-          fi
-
-          # 3. Send Apply Success Metric if apply ran
-          if [ "${{ steps.apply.outcome }}" = "success" ]; then
-            curl -s -X POST "https://api.${DATADOG_SITE}/api/v1/series" -H "DD-API-KEY: ${DD_API_KEY}" -H "Content-Type: application/json" \
-              -d "{\"series\": [{\"metric\": \"terraform.apply_success\", \"points\": [[$TS, 1]], \"type\": \"count\", \"tags\": [$TAGS]}]}"
-          fi
-
-      - name: Send Failure Metric
-        if: failure()
-        shell: bash
-        run: |
-          TS=$(date +%s)
-          TAGS="\"repo:${{ github.repository }}\",\"workflow:${{ github.workflow }}\",\"branch:${{ github.ref_name }}\",\"event:${{ github.event_name }}\""
-          
-          if [ "${{ steps.apply.outcome }}" = "failure" ]; then
-            METRIC="terraform.apply_error"
-          elif [ "${{ steps.plan.outcome }}" = "failure" ]; then
-            METRIC="terraform.plan_error"
-          else
-            METRIC="terraform.pipeline_error"
-          fi
-
-          curl -s -X POST "https://api.${DATADOG_SITE}/api/v1/series" -H "DD-API-KEY: ${DD_API_KEY}" -H "Content-Type: application/json" \
-            -d "{\"series\": [{\"metric\": \"$METRIC\", \"points\": [[$TS, 1]], \"type\": \"count\", \"tags\": [$TAGS]}]}"
-  
+     
   destroy:
     if: ${{ github.event.inputs.destroy == 'true' }}
     name: 🧨 Destruct Infra
