@@ -106,3 +106,15 @@ https://www.datadoghq.com/blog/datadog-github-actions-ci-visibility/
 <div align="center">
   <img src="./images/ci_print.png" alt="ci-print" width="800" height="800">
 </div>
+
+## Alert Print
+
+<div align="center">
+  <img src="./images/alert.png" alt="ci-print" width="800" height="800">
+</div>
+
+## Email Print
+
+<div align="center">
+  <img src="./images/email_print.png" alt="ci-print" width="800" height="800">
+</div>
