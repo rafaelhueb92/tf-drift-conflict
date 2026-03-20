@@ -5,7 +5,9 @@
 ![Datadog](https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white)
 ![Views](https://komarev.com/ghpvc/?username=rafaelhueb92&repo=tf-drift-conflict&color=blueviolet&style=for-the-badge)
 
+<div align="center">
 [terraform-datadog-logo](./images/logo.png)
+</div>
 
 This repository is a Proof of Concept (PoC) designed to demonstrate and handle **Terraform drift** and conflict resolution, specifically focusing on AWS RDS MySQL engine version upgrades.
 
