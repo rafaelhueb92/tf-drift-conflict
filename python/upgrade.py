@@ -18,8 +18,8 @@ while True:
     resp = rds.describe_db_instances(DBInstanceIdentifier=DB_IDENTIFIER)
     status = resp["DBInstances"][0]["DBInstanceStatus"]
     version = resp["DBInstances"][0]["EngineVersion"]
-    print(f"Status: {status} | Version: {version}")
     if status == "available":
         print("Upgrade complete!")
         break
+    print(f"Status: {status} | Version: {version}")
     time.sleep(30)

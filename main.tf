@@ -1,16 +1,14 @@
-provider "aws" {
-  region = "us-east-1"
+terraform {
+
+  backend "s3" {}
 }
 
-resource "aws_db_instance" "poc" {
-  identifier          = "poc-drift-mysql"
-  engine              = "mysql"
-  engine_version      = "8.4.7"        
-  instance_class      = "db.t3.micro"
-  allocated_storage   = 20
-  db_name             = "pocdb"
-  username            = "admin"
-  password            = var.db_password
-  skip_final_snapshot = true
-  apply_immediately   = true
+provider "aws" {
+  region = var.aws_region
+}
+
+variable "aws_region" {
+  description = "AWS region for provider resources"
+  type        = string
+  default     = "us-east-1"
 }
